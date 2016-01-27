@@ -1,10 +1,10 @@
 var danmu = new Array();
 var displayed = new Array();
-var api, danmu_input, danmu_check, last_check;
+var api, danmu_displayer, danmu_check, last_check, gun, id_count=5;
 
 var shoot_danmu = function(obj) {
-	danmu_input.value = obj["content"]
-	setTimeout(function() { danmu_input.value = ""; }, 1000);
+	danmu_displayer.value = obj["content"]
+	setTimeout(function() { danmu_displayer.value = ""; }, 1000);
 }
 
 var search_danmu = function(time) {
@@ -34,13 +34,26 @@ window.onload = function() {
 
 	danmu = [
 		{"id":1,"time":1.0,"content":"HAHA"},
-		{"id":2,"time":3.3,"content":"HEHE"},
+		{"id":2,"time":1.7,"content":"HEHE"},
 		{"id":3,"time":8.6,"content":"Stupid ass"},
 		{"id":4,"time":10.3,"content":"Right!"}
 	]
 	displayed = new Array();
-	danmu_input = document.getElementById('danmu')
+	danmu_displayer = document.getElementById('danmu');
+	gun = document.getElementById('gun')
 	
 	danmu_check = setInterval(update_danmu, 50);
 };
+
+var bullet = function(danmu_body) {
+	danmu_body["id"] = id_count++;
+	return danmu_body;
+}
+
+var fire_danmu = function() {
+	var current = bullet({"time":api.video.time,"content":gun.value})
+	gun.value = "";
+	danmu.push(current);
+	shoot_danmu(current)
+}
 
