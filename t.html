@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">  
+    <head>  
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>司徒正美 通过JS修改属性时触发DOM回调</title>    
+        <script>
+            window.onload = function() {
+                //支持IE11,chrome,firefox（IE6-8使用onpropertychange, IE9开始由于弱化了onpropertychange，需要用轮询）,新出的MutationObserver帮不上忙
+                //修改Element.prototype, HTMLElement.prototype,HTMLInputElement.prototype都无效，必须直接修改元素实例
+                //可能这只能对不存在的属性，想修改固有属性只能在实例上操作
+                //http://www.cnblogs.com/rubylouvre/archive/2012/05/28/2520721.html
+                aaa.__defineSetter__("value", function(newValue) {
+                    var node = this.attributes.value
+                    if (!node || newValue !== node.value) {
+                        var event = document.createEvent("Event")
+                        event.initEvent("input", true, true)
+                        this.setAttribute("value", newValue)
+                        if (document.documentElement.contains(this)) {
+                            this.dispatchEvent(event)
+                        }
+                    }
+                })
+                aaa.__defineGetter__("value", function() {
+                    var node = this.attributes.value
+                    return node ? node.value : ""
+                })
+                setTimeout(function() {
+                    aaa.value = "值改变了"
+                }, 3000)
+
+            }
+        </script>
+    </head>  
+    <body>  
+        <input id=aaa oninput="alert(this.value)" value="aaa" >
+    </body>  
+</html> 
