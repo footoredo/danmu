@@ -19,8 +19,9 @@
 	<!-- include flowplayer -->
 	<script src="./static/flowplayer/flowplayer.min.js"></script>
    
+	<script src="./static/jquery.pause.min.js"></script>
 	<script src="./static/danmu.js"></script>
-
+  <link rel="stylesheet" href="./static/danmu.css">
 
 </head>
 
@@ -29,7 +30,7 @@
    <!-- the player -->
    <p><input id="danmu" type="text" /></p>
    
-   <div class="flowplayer" data-swf="flowplayer.swf" data-ratio="0.4167">
+   <div id="player" class="flowplayer" data-swf="flowplayer.swf" data-ratio="0.4167">
       <video>
          <source type="video/mp4" src="http://kyeremal-shanghai.oss-cn-shanghai.aliyuncs.com/test/done.mp4">
       </video>
