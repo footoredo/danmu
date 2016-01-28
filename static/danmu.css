@@ -1,0 +1,17 @@
+.bullet {
+  position: absolute;
+  top: 0;
+  width:auto;
+  z-index: 10;
+  color: white;
+  white-space: nowrap;
+  font-size: 20px;
+  -webkit-text-fill-color: white;
+  -webkit-text-stroke: 0.5px black; 
+}
+
+.danmuplayer {
+  overflow: hidden;
+  position: absolute;
+}
+
