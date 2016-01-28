@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 import web
 import json
 
@@ -20,4 +23,5 @@ class send:
     print bullet["content"]
 		
 if __name__ == "__main__":
-	app.run()
+    web.wsgi.runwsgi = lambda func, addr=None: web.wsgi.runfcgi(func, addr)
+    app.run()
