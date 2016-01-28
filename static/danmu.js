@@ -2,6 +2,7 @@ var danmu = new Array();
 var displayed = new Array();
 var api, danmu_check, last_check, gun, id_count=5;
 var danmuplayerJQ, danmuplayer;
+var playerJQ, player;
 
 var get_top = function() {
   var top = 0;
@@ -24,7 +25,7 @@ var shoot_danmu = function(obj) {
 	bullet.style.left = danmuplayerJQ.width() + "px";
 	bullet.style.top = get_top();
 	danmuplayer.appendChild(bullet);
-	var JQ = $("#"+bullet.id);
+	var JQ = $(".bullet#"+bullet.id);
 	JQ.animate({"left":-JQ.width()}, 10000, "linear", function() {
 	  JQ.remove();
   });
@@ -57,25 +58,23 @@ var init_player = function() {
   danmuplayer.setAttribute("class", "danmuplayer");
   document.body.appendChild(danmuplayer);
   danmuplayerJQ = $(".danmuplayer");
+  playerJQ = $(".flowplayer");
+  player = document.getElementsByClassName("flowplayer")[0];
 }
 
 var sync_player = function() {
-  var flowplayer = $(".flowplayer");
-  danmuplayer.style.width = flowplayer.width() + "px";
-  danmuplayer.style.height = flowplayer.height() + "px";
-  danmuplayer.style.top = flowplayer.position().top + "px";
-  danmuplayer.style.left = flowplayer.position().left + "px";
+  danmuplayer.style.width = playerJQ.width() + "px";
+  danmuplayer.style.height = playerJQ.height() + "px";
+  danmuplayer.style.top = playerJQ.position().top + "px";
+  danmuplayer.style.left = playerJQ.position().left + "px";
 }
 
 window.onload = function() {
 	api = flowplayer();
 
-	danmu = [
-		{"id":1,"time":1.0,"content":"HAHAHAHAHAHA"},
-		{"id":2,"time":1.7,"content":"呵呵呵呵呵呵呵呵"},
-		{"id":3,"time":8.6,"content":"傻逼"},
-		{"id":4,"time":10.3,"content":"Right!"}
-	]
+	$.get("/get", function(data, status) {
+	  danmu = JSON.parse(data);
+	})
 	displayed = new Array();
 	danmu_displayer = document.getElementById('danmu');
 	gun = document.getElementById('gun');
@@ -83,6 +82,7 @@ window.onload = function() {
 	danmu_check = setInterval(update_danmu, 50);
 	init_player();
 	sync_player();
+	$(window).resize(function(){sync_player()});
 	
   api.on("pause", function() {
     $(".bullet").pause();
@@ -96,19 +96,35 @@ window.onload = function() {
     last_check = api.video.time;
     $(".bullet").remove();
   });
+  
+  api.on("fullscreen", function() {
+    $(window).unbind("resize");
+    danmuplayer.style.width = "100%";
+    danmuplayer.style.height = "100%";
+    danmuplayer.style.top = "0";
+    danmuplayer.style.left = "0";
+  });
+  
+  api.on("fullscreen-exit", function() {
+    sync_player();
+    $(window).resize(function(){sync_player()});
+  });
 };
 
-var bullet = function(danmu_body) {
-	danmu_body["id"] = id_count++;
-	return danmu_body;
-}
 
 var fire_danmu = function() {
-	var current = bullet({"time":api.video.time,"content":gun.value})
+	var bullet = {"time":api.video.time,"content":gun.value};
+	if (gun.value.length > 50) {
+	  alert("太长了傻逼");
+	  return false;
+  }
 	gun.value = "";
-	$.post("/send", JSON.stringify(current))
-	shoot_danmu(current);
-	setTimeout(function(){danmu.push(current);}, 500);
+	$.post("/send", JSON.stringify(bullet), function(data, status) {
+	  console.log(data);
+	  bullet["id"] = data;
+	  shoot_danmu(bullet);
+	  setTimeout(function(){danmu.push(bullet);}, 500);
+	});
 	return false;
 }
 
