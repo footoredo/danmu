@@ -65,8 +65,8 @@ var init_player = function() {
 var sync_player = function() {
   danmuplayer.style.width = playerJQ.width() + "px";
   danmuplayer.style.height = playerJQ.height() + "px";
-  danmuplayer.style.top = playerJQ.position().top + "px";
-  danmuplayer.style.left = playerJQ.position().left + "px";
+  danmuplayer.style.top = playerJQ.offset().top + "px";
+  danmuplayer.style.left = playerJQ.offset().left + "px";
 }
 
 window.onload = function() {
