@@ -1,2 +1,4 @@
-danmu.pyc
+*.pyc
 spawn-fcgi.sh
+*.bak
+test.py

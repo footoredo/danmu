@@ -1,3 +1,4 @@
+$def with (url)
 <!doctype html>
 
 <head>
@@ -6,7 +7,7 @@
 
 	<!-- player skin -->
 	<link rel="stylesheet" href="./static/flowplayer/skin/functional.css">
-
+    <style type="text/css">@import url(http://fonts.googleapis.com/earlyaccess/notosanssc.css);</style>
 	<!-- site specific styling -->
 	<style>
 		body { font: 12px "Myriad Pro", "Lucida Grande", sans-serif; text-align: center; padding-top: 5%; }
@@ -21,6 +22,7 @@
    
 	<script src="./static/jquery.pause.min.js"></script>
 	<script src="./static/danmu.js"></script>
+<script>   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');    ga('create', 'UA-73113199-1', 'auto');   ga('send', 'pageview');  </script>
   <link rel="stylesheet" href="./static/danmu.css">
 
 </head>
@@ -28,11 +30,11 @@
 <body>
 
    <!-- the player -->
-   <p><input id="danmu" type="text" /></p>
    
-   <div id="player" class="flowplayer" data-swf="flowplayer.swf" data-ratio="0.4167">
+   <div id="6b84e891666042d06a9e3e28545e447dd85ac091" class="flowplayer" data-swf="flowplayer.swf" data-ratio="0.4167">
       <video>
-         <source type="video/mp4" src="http://kyeremal-shanghai.oss-cn-shanghai.aliyuncs.com/test/done.mp4">
+         <!--<source type="video/mp4" src="http://resource.rainman.me/film/done.mp4">-->
+         <source type="video/mp4" src="$url">
       </video>
    </div>
    
